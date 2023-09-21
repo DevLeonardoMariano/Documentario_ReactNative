@@ -2,6 +2,7 @@ import React from "react";
 import {useNavigation} from "@react-navigation/native"
 import { View, Image, FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { Input, Text } from "@rneui/themed";
+import { Searchbar } from "react-native-paper";
 
 
 
@@ -10,7 +11,7 @@ const documentarios = [
     id: "1",
     title: "Item 1",
     subtitle: "Subtítulo do Item 1",
-    imageUri: require('../../assets/favicon.png'),
+    imageUri:{uri: "https://picsum.photos/700"},
   },
   
   
@@ -19,6 +20,7 @@ const documentarios = [
 const Documentario = ({ item }) => (
   <View style={styles.itemDocumentario}>
     <Image style={styles.image} source={item.imageUri} />
+    {/* <Image style={styles.image} source={{uri: "https://picsum.photos/700"}} /> */}
     <View style={styles.texto}>
       <Text style={styles.titulo}>{item.title}</Text>
       <Text style={styles.autor}>{item.subtitle}</Text>
@@ -32,11 +34,7 @@ const Favorito = () => {
   return (
     <View style={styles.container}>
         <View style={styles.Buscar}>
-        <Input
-          placeholder="Buscar Documentário"
-          leftIcon={{ type: "font-awesome", name: "search", color: "white" }}
-          inputStyle={{ color: "white" }}
-        />
+        <Searchbar style={styles.InputBuscar} placeholder="Buscar" />
       </View>
       <View style={styles.listarDocumentario}>
       <FlatList
@@ -44,7 +42,7 @@ const Favorito = () => {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <TouchableOpacity
-              onPress={() => navigation.navigate("Detalhes", { item })}
+              onPress={() => navigation.navigate("DetalheDocumentario", { item })}
             >
               <Documentario item={item} />
             </TouchableOpacity>
@@ -59,13 +57,13 @@ const Favorito = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#12304A",
-    paddingTop: 120,
+    backgroundColor: 'rgb(130, 10, 209)',
+    paddingTop: 100,
     
   },
  
   listarDocumentario: {
-    backgroundColor: "#12304A",
+    backgroundColor: 'rgb(130, 10, 209)',
     padding: 10,
     flex: 1,
     marginBottom: 75,
@@ -74,7 +72,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: 25,
-    backgroundColor: "#264968",
+    backgroundColor: 'rgb(249 249 249)',
     borderRadius: 10,
     padding: 15,
     marginHorizontal: 10,
@@ -91,18 +89,21 @@ const styles = StyleSheet.create({
   titulo: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "white",
+    color: "#000",
     marginBottom: 10,
   },
   autor: {
     fontSize: 14,
-    color: "gray",
+    color: "#000",
   },
   Buscar: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: "#12304A",
+    backgroundColor: 'rgb(130, 10, 209)',
     paddingHorizontal: 80,
+  },
+  InputBuscar: {
+    width: "100%",
   },
 }); 
 

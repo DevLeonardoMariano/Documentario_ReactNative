@@ -9,22 +9,25 @@ import Principal from "../Screens/Principal";
 import Perfil from "../Screens/Perfil";
 import Favorito from "../Screens/Favorito";
 import CadastrarDocumentario from "../Screens/CadastrarDocumentario";
-import EsqueceuSenha from "../Screens/EsqueceuSenha";
+import DetalheDocumentario from "../Screens/DetalheDocumentario";
+import GerenciamentoDocumentario from "../Screens/GerenciamentoDocumentario";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+
+const isAdmin = true
 
 function TabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: "#12304A",
-        tabBarInactiveTintColor: "#fff",
+        tabBarActiveTintColor: 'rgb(73 4 118)',
+        tabBarInactiveTintColor: 'rgb(73 4 118)',
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
           position: "absolute",
-          backgroundColor: "#F39C3A",
+          backgroundColor: 'rgb(249 249 249)',
           borderTopWidth: 0,
         },
       }}
@@ -55,6 +58,22 @@ function TabNavigator() {
           ),
         }}
       />
+       {isAdmin && (
+      <Tab.Screen
+        name="GerenciamentoDocumentario"
+        component={GerenciamentoDocumentario}
+        options={{
+          
+          tabBarIcon: ({ color, size, focused }) => (
+            focused ? (
+              <Ionicons name="settings" size={size} color={color} />
+            ) : (
+              <Ionicons name="settings-outline" size={size} color={color} />
+            )
+          ),
+        }}
+      />
+      )}
       <Tab.Screen
         name="Perfil"
         component={Perfil}
@@ -82,6 +101,7 @@ function TabNavigator() {
         }}
       />
     </Tab.Navigator>
+    
   );
 }
 
@@ -91,9 +111,9 @@ function TabNavigator() {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName={userLoggedIn ? "TabNavigator" : "Login"}>
       <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="EsqueceuSenha" component={EsqueceuSenha} />
       <Stack.Screen name="Registro" component={Registro} />
       <Stack.Screen name="TabNavigator" component={TabNavigator} />
+      <Stack.Screen name="DetalheDocumentario" component={DetalheDocumentario} />
     </Stack.Navigator>
   );
 }

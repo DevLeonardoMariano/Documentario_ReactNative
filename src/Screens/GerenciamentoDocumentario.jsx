@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
+import { Button, Input, Text } from "@rneui/themed";
 import {
   View,
   Image,
@@ -7,8 +8,8 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { Input, Text } from "@rneui/themed";
 import { Searchbar } from "react-native-paper";
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 const documentarios = [
   {
@@ -67,24 +68,58 @@ const documentarios = [
   },
 ];
 
-const Documentario = ({ item }) => (
-  <View style={styles.itemDocumentario}>
-    <Image style={styles.image} source={item.imageUri} />
-    {/* <Image style={styles.image} source={{uri: "https://picsum.photos/700"}} /> */}
-    <View style={styles.texto}>
-      <Text style={styles.titulo}>{item.title}</Text>
-      <Text style={styles.autor}>{item.subtitle}</Text>
+const Documentario = ({ item, onEdit, onDelete }) => (
+    <View style={styles.itemDocumentario}>
+      <Image style={styles.image} source={item.imageUri} />
+      <View style={styles.texto}>
+        <Text style={styles.titulo}>{item.title}</Text>
+        <Text style={styles.autor}>{item.subtitle}</Text>
+      </View>
+      <View style={styles.iconContainer}>
+        <TouchableOpacity onPress={() => onEdit(item.id)} style={styles.icon}>
+          <Icon name="pencil" size={24} color="blue" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => onDelete(item.id)} style={styles.icon}>
+          <Icon name="trash" size={24} color="red" />
+        </TouchableOpacity>
+      </View>
     </View>
-  </View>
-);
+  );
 
 
 
-const Princpal = () => {
+const GerenciamentoDocumentario = () => {
   const navigation = useNavigation();
+
+
+
+  const handleEdit = (itemId) => {
+    // Implemente a lógica de edição aqui
+    // Você pode navegar para a tela de edição com base no ID do item
+    // navigation.navigate('TelaDeEdicao', { itemId });
+  };
+
+  const handleDelete = (itemId) => {
+    // Implemente a lógica de exclusão aqui
+    // Você pode mostrar um diálogo de confirmação ou executar a exclusão diretamente
+    // Se você desejar uma confirmação, pode usar bibliotecas como `react-native-modal` para criar um modal de confirmação
+    // ou simplesmente navegar para uma tela de confirmação de exclusão
+  };
 
   return (
     <View style={styles.container}>
+        <Button
+            style={styles.button}
+            buttonStyle={{
+              borderColor: "#EE7F01",
+              backgroundColor: "#EE7F01",
+              borderRadius: 4,
+            }}
+            titleStyle={{ color: "white", }}
+            title="NOVO"
+            type="outline"
+            onPress={() => navigation.navigate("CadastrarDocumentario",)}
+          />
       <View style={styles.Buscar}>
         <Searchbar style={styles.InputBuscar} placeholder="Buscar" />
       </View>
@@ -156,6 +191,18 @@ const styles = StyleSheet.create({
   InputBuscar: {
     width: "100%",
   },
+  iconContainer: {
+    flexDirection: "row",
+    alignItems: "center", // Alinha os ícones verticalmente
+    marginLeft: 7, // Adicione a margem desejada entre os ícones
+  },
+  icon: {
+    marginHorizontal: 9, // Espaçamento horizontal entre os ícones
+  },
+  button:{
+    paddingHorizontal: 120,
+    marginBottom: 30,
+  }
 });
 
-export default Princpal;
+export default GerenciamentoDocumentario;
