@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { Input, Text } from "@rneui/themed";
 import { Searchbar } from "react-native-paper";
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 const documentarios = [
   {
@@ -84,11 +86,21 @@ const Princpal = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
-      <View style={styles.Buscar}>
+    <LinearGradient colors={[
+      'rgba(50, 0, 64, 1)',
+      'rgba(97, 9, 121, 1)']}
+      style={styles.container}>
+      <LinearGradient colors={[
+        'rgba(50, 0, 64, 1)',
+        'rgba(97, 9, 121, 1)']}
+        style={styles.Buscar}>
         <Searchbar style={styles.InputBuscar} placeholder="Buscar" />
-      </View>
-      <View style={styles.listarDocumentario}>
+      </LinearGradient>
+      <LinearGradient colors={[
+        'rgba(97, 9, 121, 1)',
+        'rgba(143, 32, 173, 1)']}
+        style={styles.listarDocumentario}>
+
         <FlatList
           data={documentarios}
           keyExtractor={(item) => item.id}
@@ -101,20 +113,18 @@ const Princpal = () => {
           )}
           showsVerticalScrollIndicator={false}
         />
-      </View>
-    </View>
+      </LinearGradient>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(130, 10, 209)',
     paddingTop: 100,
   },
 
   listarDocumentario: {
-    backgroundColor: 'rgb(130, 10, 209)',
     padding: 10,
     flex: 1,
     marginBottom: 75,

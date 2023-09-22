@@ -2,10 +2,14 @@ import { View, StyleSheet } from "react-native";
 import { Avatar, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import React from "react";
+import { LinearGradient } from 'expo-linear-gradient';
 
 const Perfil = () => {
   return (
-    <View style={styles.container}>
+    <LinearGradient colors={['rgba(50, 0, 64, 1)',
+      'rgba(97, 9, 121, 1)',
+      'rgba(143, 32, 173, 1)']}
+      style={styles.container}>
     <View style={styles.imagemContainer}>
       <Avatar.Image size={200} source={{uri: "https://picsum.photos/700"}} style={styles.imagem} />
     </View>
@@ -28,7 +32,8 @@ const Perfil = () => {
         </View>
         <Text style={styles.valor}>Email retornado da API</Text>
       </View>
-    </View>
+
+    </LinearGradient>
   )
 }
 

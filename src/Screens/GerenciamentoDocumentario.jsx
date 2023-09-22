@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Searchbar } from "react-native-paper";
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const documentarios = [
   {
@@ -107,7 +108,11 @@ const GerenciamentoDocumentario = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <LinearGradient colors={[
+      'rgba(50, 0, 64, 1)',
+      'rgba(97, 9, 121, 1)']}
+      style={styles.container}>
+    {/* <View style={styles.container}> */}
         <Button
             style={styles.button}
             buttonStyle={{
@@ -120,10 +125,17 @@ const GerenciamentoDocumentario = () => {
             type="outline"
             onPress={() => navigation.navigate("CadastrarDocumentario",)}
           />
-      <View style={styles.Buscar}>
+          <LinearGradient colors={[
+        'rgba(50, 0, 64, 1)',
+        'rgba(97, 9, 121, 1)']}
+        style={styles.Buscar}>
         <Searchbar style={styles.InputBuscar} placeholder="Buscar" />
-      </View>
-      <View style={styles.listarDocumentario}>
+      </LinearGradient>
+      <LinearGradient colors={[
+        'rgba(97, 9, 121, 1)',
+        'rgba(143, 32, 173, 1)']}
+        style={styles.listarDocumentario}>
+      
         <FlatList
           data={documentarios}
           keyExtractor={(item) => item.id}
@@ -136,8 +148,10 @@ const GerenciamentoDocumentario = () => {
           )}
           showsVerticalScrollIndicator={false}
         />
-      </View>
-    </View>
+
+      </LinearGradient>
+    {/* </View> */}
+    </LinearGradient>
   );
 };
 

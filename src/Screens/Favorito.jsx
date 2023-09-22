@@ -1,9 +1,9 @@
 import React from "react";
-import {useNavigation} from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/native"
 import { View, Image, FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { Input, Text } from "@rneui/themed";
 import { Searchbar } from "react-native-paper";
-
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 const documentarios = [
@@ -11,10 +11,10 @@ const documentarios = [
     id: "1",
     title: "Item 1",
     subtitle: "Subtítulo do Item 1",
-    imageUri:{uri: "https://picsum.photos/700"},
+    imageUri: { uri: "https://picsum.photos/700" },
   },
-  
-  
+
+
 ];
 
 const Documentario = ({ item }) => (
@@ -32,12 +32,22 @@ const Favorito = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
-        <View style={styles.Buscar}>
+    <LinearGradient colors={[
+      'rgba(50, 0, 64, 1)',
+      'rgba(97, 9, 121, 1)']}
+      style={styles.container}>
+      <LinearGradient colors={[
+        'rgba(50, 0, 64, 1)',
+        'rgba(97, 9, 121, 1)']}
+        style={styles.Buscar}>
         <Searchbar style={styles.InputBuscar} placeholder="Buscar" />
-      </View>
-      <View style={styles.listarDocumentario}>
-      <FlatList
+      </LinearGradient>
+      <LinearGradient colors={[
+        'rgba(97, 9, 121, 1)',
+        'rgba(143, 32, 173, 1)']}
+        style={styles.listarDocumentario}>
+
+        <FlatList
           data={documentarios}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
@@ -49,19 +59,17 @@ const Favorito = () => {
           )}
           showsVerticalScrollIndicator={false}
         />
-      </View>
-    </View>
+      </LinearGradient>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(130, 10, 209)',
     paddingTop: 100,
-    
   },
- 
+
   listarDocumentario: {
     backgroundColor: 'rgb(130, 10, 209)',
     padding: 10,
@@ -105,6 +113,6 @@ const styles = StyleSheet.create({
   InputBuscar: {
     width: "100%",
   },
-}); 
+});
 
 export default Favorito;

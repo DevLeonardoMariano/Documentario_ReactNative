@@ -2,6 +2,8 @@ import { View, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { Avatar, Button, Card, Text } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import React, { useState } from "react";
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 const documentarios = [
   {
@@ -53,63 +55,66 @@ const DetalheDocumentario = () => {
   };
 
   return (
-    
-    <ScrollView style={styles.container}>
-    {documentarios.map((documentario) => (
-      <Card key={documentario.id} style={styles.card}>
-        <Card.Cover
-          source={{ uri: documentario.imageUri }}
-          style={styles.imagem}
-        />
-        <Card.Content>
-          <View style={styles.tituloContainer}>
-            <Text style={styles.titulo}>{documentario.title}</Text>
-            <TouchableOpacity onPress={() => toggleFavorito(documentario.id)}>
-              {documentario.favorito ? (
-                <Icon name="star" size={24} color="gold" />
-              ) : (
-                <Icon name="star-o" size={24} color="gray" />
-              )}
-            </TouchableOpacity>
-          </View>
-
-          <Text style={styles.autor}>{documentario.autor}</Text>
-
-          {/* Adicione ScrollView para o resumo */}
-          <ScrollView style={styles.resumoContainer}>
-            <Text style={styles.resumo}>{documentario.resumo}</Text>
-          </ScrollView>
-
-          <Text style={styles.avaliacao}>Avaliação:</Text>
-          <View style={styles.estrelasContainer}>
-            {Array(5)
-              .fill(0)
-              .map((_, index) => (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => {
-                    toggleAvaliacao(documentario.id, index);
-                  }}
-                >
-                  <Icon
-                    name={index < documentario.avaliacao ? "star" : "star-o"} // Verifique se o índice é menor do que a avaliação para definir a cor da estrela
-                    size={24}
-                    color="gold"
-                  />
+    <LinearGradient colors={['rgba(50, 0, 64, 1)',
+      'rgba(97, 9, 121, 1)',
+      'rgba(143, 32, 173, 1)']}
+      style={styles.container}>
+      <ScrollView style={styles.container}>
+        {documentarios.map((documentario) => (
+          <Card key={documentario.id} style={styles.card}>
+            <Card.Cover
+              source={{ uri: documentario.imageUri }}
+              style={styles.imagem}
+            />
+            <Card.Content>
+              <View style={styles.tituloContainer}>
+                <Text style={styles.titulo}>{documentario.title}</Text>
+                <TouchableOpacity onPress={() => toggleFavorito(documentario.id)}>
+                  {documentario.favorito ? (
+                    <Icon name="star" size={24} color="gold" />
+                  ) : (
+                    <Icon name="star-o" size={24} color="gray" />
+                  )}
                 </TouchableOpacity>
-              ))}
-          </View>
-        </Card.Content>
-      </Card>
-    ))}
-  </ScrollView>
+              </View>
+
+              <Text style={styles.autor}>{documentario.autor}</Text>
+
+              {/* Adicione ScrollView para o resumo */}
+              <ScrollView style={styles.resumoContainer}>
+                <Text style={styles.resumo}>{documentario.resumo}</Text>
+              </ScrollView>
+
+              <Text style={styles.avaliacao}>Avaliação:</Text>
+              <View style={styles.estrelasContainer}>
+                {Array(5)
+                  .fill(0)
+                  .map((_, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      onPress={() => {
+                        toggleAvaliacao(documentario.id, index);
+                      }}
+                    >
+                      <Icon
+                        name={index < documentario.avaliacao ? "star" : "star-o"} // Verifique se o índice é menor do que a avaliação para definir a cor da estrela
+                        size={24}
+                        color="gold"
+                      />
+                    </TouchableOpacity>
+                  ))}
+              </View>
+            </Card.Content>
+          </Card>
+        ))}
+      </ScrollView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgb(130, 10, 209)",
     paddingTop: 0,
   },
 

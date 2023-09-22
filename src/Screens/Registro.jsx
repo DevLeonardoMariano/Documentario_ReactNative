@@ -4,6 +4,8 @@ import { Button, Input, Text } from "@rneui/themed";
 import { TextInput } from "react-native-paper";
 import { View, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 const Resgistro = () => {
   const navigation = useNavigation();
@@ -14,10 +16,10 @@ const Resgistro = () => {
 
   return (
     <>
-      <KeyboardAwareScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}
-      >
+        <LinearGradient colors={['rgba(50, 0, 64, 1)',
+      'rgba(97, 9, 121, 1)',
+      'rgba(143, 32, 173, 1)']}
+      style={styles.container}>
         <View style={styles.formulario}>
           <TextInput label="Nome" style={styles.input} />
           <TextInput label="Data de Nascimento" style={styles.input} />
@@ -51,7 +53,7 @@ const Resgistro = () => {
         >
           Já tem conta cadastrada? Faça Login
         </Text>
-      </KeyboardAwareScrollView>
+        </LinearGradient> 
     </>
   );
 };
@@ -60,12 +62,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'rgb(130, 10, 209)',
-  },
-  contentContainer: {
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: 120,
+    paddingTop: 100,
   },
+ 
   formulario: {
     backgroundColor: 'rgb(249 249 249)',
     width: "85%",

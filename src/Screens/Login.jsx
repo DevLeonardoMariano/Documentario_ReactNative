@@ -4,6 +4,7 @@ import { Button, Input, Text } from "@rneui/themed";
 import { TextInput } from "react-native-paper";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { LinearGradient } from 'expo-linear-gradient';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -17,10 +18,12 @@ const Login = () => {
   };
 
   return (
+    <LinearGradient  colors={['rgba(50, 0, 64, 1)', 'rgba(97, 9, 121, 1)', 'rgba(143, 32, 173, 1)']} style={styles.container}>
     <KeyboardAwareScrollView
       style={styles.container}
-      contentContainerStyle={styles.contentContainer}
+      contentContainerStyle={styles.contentContainer} 
     >
+       
       <View style={styles.formulario}>
         <TextInput label="E-mail" style={styles.input} inputMode="email" />
 
@@ -42,14 +45,16 @@ const Login = () => {
            <Text style={styles.texto} onPress={() => {handleNavRegistro();}}> Cadastra-se</Text>
         </TouchableOpacity>
       </View>
+      
     </KeyboardAwareScrollView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgb(130, 10, 209)",
+    // backgroundColor: "rgb(130, 10, 209)",
   },
   contentContainer: {
     alignItems: "center",
