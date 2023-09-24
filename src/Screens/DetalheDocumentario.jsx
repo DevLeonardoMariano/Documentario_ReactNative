@@ -77,10 +77,7 @@ const DetalheDocumentario = () => {
                   )}
                 </TouchableOpacity>
               </View>
-
               <Text style={styles.autor}>{documentario.autor}</Text>
-
-              {/* Adicione ScrollView para o resumo */}
               <ScrollView style={styles.resumoContainer}>
                 <Text style={styles.resumo}>{documentario.resumo}</Text>
               </ScrollView>
@@ -120,7 +117,7 @@ const styles = StyleSheet.create({
 
   card: {
     flex: 1,
-    marginBottom: 90,
+    marginBottom: 1,
     backgroundColor: "white", // Cor de fundo do Card
   },
   tituloContainer: {
@@ -146,13 +143,14 @@ const styles = StyleSheet.create({
   avaliacao: {
     fontSize: 18,
     fontWeight: "bold",
-    marginTop: 20,
+    marginTop: 30,
   },
   estrelasContainer: {
     flexDirection: "row",
     alignItems: "center",
     marginTop: 10,
     paddingBottom: 20,
+    marginBottom:30,
   },
 });
 

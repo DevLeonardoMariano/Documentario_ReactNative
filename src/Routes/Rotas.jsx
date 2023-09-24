@@ -13,7 +13,7 @@ import DetalheDocumentario from "../Screens/DetalheDocumentario";
 import GerenciamentoDocumentario from "../Screens/GerenciamentoDocumentario";
 
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
+
 
 const isAdmin = true
 
@@ -106,6 +106,8 @@ function TabNavigator() {
 }
 
  export default function Rotas() {
+
+  const Stack = createStackNavigator();
   const [userLoggedIn, setUserLoggedIn] = React.useState(false); // Defina como `true` quando o usuário estiver autenticado
 
   return (
