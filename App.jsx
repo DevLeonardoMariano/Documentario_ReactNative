@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
+import  UserProvider  from './src/Context/UserContext';
 import Rotas from './src/Routes/Rotas';
 
 
@@ -8,11 +9,12 @@ import Rotas from './src/Routes/Rotas';
 export default function App() {
   return (
     <>
-      <StatusBar style='light'></StatusBar>
-      <NavigationContainer>
-       <Rotas/>
-      </NavigationContainer>
-      
+      <UserProvider>
+        <StatusBar style='light'></StatusBar>
+        <NavigationContainer>
+          <Rotas />
+        </NavigationContainer>
+      </UserProvider>
     </>
   );
 }

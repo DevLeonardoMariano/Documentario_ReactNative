@@ -19,21 +19,21 @@ const documentarios = [
   },
 ];
 
+
+
 const DetalheDocumentario = () => {
+
+
   const [documentariosData, setDocumentariosData] = useState(documentarios);
 
   // Favoritar -------------------------------------------------------------------------------------------------------------
   const toggleFavorito = (id) => {
-    // Encontre o documento pelo ID
     const documentoIndex = documentariosData.findIndex((doc) => doc.id === id);
 
     if (documentoIndex !== -1) {
-      // Clone o array de documentos para evitar mutações diretas
       const newDocumentariosData = [...documentariosData];
-      // Inverta o estado de favorito do documento
       newDocumentariosData[documentoIndex].favorito =
         !newDocumentariosData[documentoIndex].favorito;
-      // Atualize o estado
       setDocumentariosData(newDocumentariosData);
     }
   };
@@ -41,15 +41,12 @@ const DetalheDocumentario = () => {
   // Avalição Final -------------------------------------------------------------------------------------------------------------
 
   const toggleAvaliacao = (id, estrelaIndex) => {
-    // Encontre o documento pelo ID
     const documentoIndex = documentariosData.findIndex((doc) => doc.id === id);
 
     if (documentoIndex !== -1) {
-      // Clone o array de documentos para evitar mutações diretas
+      
       const newDocumentariosData = [...documentariosData];
-      // Atualize o estado de avaliação do documento com base no índice da estrela clicada
-      newDocumentariosData[documentoIndex].avaliacao = estrelaIndex + 1; // +1 porque os índices começam em 0
-      // Atualize o estado
+      newDocumentariosData[documentoIndex].avaliacao = estrelaIndex + 1; 
       setDocumentariosData(newDocumentariosData);
     }
   };
@@ -94,7 +91,7 @@ const DetalheDocumentario = () => {
                       }}
                     >
                       <Icon
-                        name={index < documentario.avaliacao ? "star" : "star-o"} // Verifique se o índice é menor do que a avaliação para definir a cor da estrela
+                        name={index < documentario.avaliacao ? "star" : "star-o"} 
                         size={24}
                         color="gold"
                       />
@@ -109,6 +106,11 @@ const DetalheDocumentario = () => {
   );
 };
 
+
+
+
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
   card: {
     flex: 1,
     marginBottom: 1,
-    backgroundColor: "white", // Cor de fundo do Card
+    backgroundColor: "white", 
   },
   tituloContainer: {
     flexDirection: "row",

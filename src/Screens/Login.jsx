@@ -1,55 +1,76 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useState } from "react";
 import { Button, Input, Text } from "@rneui/themed";
 import { TextInput } from "react-native-paper";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { LinearGradient } from 'expo-linear-gradient';
+import {useUser} from "../Context/UserContext";
 
 const Login = () => {
-  const navigation = useNavigation();
 
+  const [email,setEmail] = useState();
+  const [password,setPassword] = useState();
+  const {user,setUser} = useUser();
+
+
+  const navigation = useNavigation();
   const handleNavRegistro = () => {
     navigation.navigate("Registro");
   };
 
+
   const handleLogin = () => {
+
+    setUser({
+      id: 1,
+      nome: "Leonardo",
+      email: "leoziinhomariano02@gmail.com",
+      password: "12345",
+      telefone: "1899761-6158",
+      logado: true,
+    })
     navigation.navigate("TabNavigator", { screen: "Principal" });
   };
 
   return (
-    <LinearGradient  colors={['rgba(50, 0, 64, 1)', 'rgba(97, 9, 121, 1)', 'rgba(143, 32, 173, 1)']} style={styles.container}>
-    <KeyboardAwareScrollView
-      style={styles.container}
-      contentContainerStyle={styles.contentContainer} 
-    >
-       
-      <View style={styles.formulario}>
-        <TextInput label="E-mail" style={styles.input} inputMode="email" />
+    <LinearGradient colors={['rgba(50, 0, 64, 1)', 'rgba(97, 9, 121, 1)', 'rgba(143, 32, 173, 1)']} style={styles.container}>
+      <KeyboardAwareScrollView
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}
+      >
 
-        <TextInput label="Senha" style={styles.input} secureTextEntry={true} />
+        <View style={styles.formulario}>
 
-        <Button
-          style={styles.button}
-          buttonStyle={{
-            borderColor: "#EE7F01",
-            backgroundColor: "#EE7F01",
-            borderRadius: 4,
-          }}
-          titleStyle={{ color: "white" }}
-          title="ACESSAR"
-          type="outline"
-          onPress={() => handleLogin()}
-        />
-        <TouchableOpacity >
-           <Text style={styles.texto} onPress={() => {handleNavRegistro();}}> Cadastra-se</Text>
-        </TouchableOpacity>
-      </View>
-      
-    </KeyboardAwareScrollView>
+          <TextInput label="E-mail" style={styles.input} inputMode="email" />
+          <TextInput label="Senha" style={styles.input} secureTextEntry={true} />
+
+          <Button
+            style={styles.button}
+            buttonStyle={{
+              borderColor: "#EE7F01",
+              backgroundColor: "#EE7F01",
+              borderRadius: 4,
+            }}
+            titleStyle={{ color: "white" }}
+            title="ACESSAR"
+            type="outline"
+            onPress={() => handleLogin()}
+          />
+          <TouchableOpacity >
+            <Text style={styles.texto} onPress={() => { handleNavRegistro(); }}> Cadastra-se</Text>
+          </TouchableOpacity>
+        </View>
+
+      </KeyboardAwareScrollView>
     </LinearGradient>
   );
 };
+
+
+
+
+
 
 const styles = StyleSheet.create({
   container: {
