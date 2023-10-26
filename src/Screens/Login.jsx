@@ -12,7 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setSenha] = useState("");
-  const [errors, setErrors] = useState({});
+  
 
   const navigation = useNavigation();
 
@@ -30,23 +30,25 @@ const Login = () => {
       console.log("Resposta da solicitação:", response.data);
   
       if (response.data.status === true && response.data.token) {
+
         // Login bem-sucedido
-        Alert.alert("Bem vindo ao mundo DOCUMENTARIO")
+        Alert.alert("Sucesso","Bem vindo ao mundo DOCUMENTARIO")
         const token = response.data.token;
+        // const usuario = response.data.usuario;
+
         await AsyncStorage.setItem('TOKEN', token);
+        // await AsyncStorage.setItem('USUARIO', usuario);
         navigation.navigate("TabNavigator", { screen: "Principal" });
+
+
       } else {
-        // Verifique se há erros de validação
-        if (response.data.errors) {
-          setErrors(response.data.errors);
-        } else {
-          const erro = response.data.error || 'Erro desconhecido no servidor';
-          Alert.alert('Erro', erro);
-        }
+        
       }
     } catch (error) {
+
       console.error('Erro na solicitação:', error);
-      Alert.alert('Erro', 'Ocorreu um erro durante a solicitação. Verifique sua conexão com a internet.');
+      Alert.alert('Erro', 'Ocorreu um erro durante a solicitação.');
+
     }
   };
 
@@ -74,7 +76,7 @@ const Login = () => {
             style={styles.input}
             inputMode="email"
             onChangeText={(text) => setEmail(text)}
-            error={errors.email ? errors.email[0] : null}
+            
           />
 
           <TextInput
@@ -82,7 +84,7 @@ const Login = () => {
             style={styles.input}
             secureTextEntry={true}
             onChangeText={(text) => setSenha(text)}
-            error={errors.password ? errors.password[0] : null}
+            
           />
 
           <Button

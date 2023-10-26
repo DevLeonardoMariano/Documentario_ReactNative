@@ -1,10 +1,13 @@
 import { View, StyleSheet } from "react-native";
 import { Avatar, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import React from "react";
+import { React, useState, useEffect } from "react";
 import { LinearGradient } from 'expo-linear-gradient';
+import api from "../Service/api";
 
 const Perfil = () => {
+
+
   return (
     <LinearGradient colors={['rgba(50, 0, 64, 1)',
       'rgba(97, 9, 121, 1)',

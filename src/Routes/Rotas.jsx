@@ -73,6 +73,18 @@ function TabNavigator() {
           }}
         />
       )}
+      <Tab.Screen
+        name="Perfil"
+        component={Perfil}
+        options={{
+          tabBarIcon: ({ color, size, focused }) =>
+            focused ? (
+              <Ionicons name="person" size={size} color={color} />
+            ) : (
+              <Ionicons name="person-outline" size={size} color={color} />
+            ),
+        }}
+      />
       {/* <Tab.Screen
         name="Logout"
         options={{

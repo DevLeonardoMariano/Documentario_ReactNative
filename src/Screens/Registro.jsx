@@ -23,9 +23,6 @@ const Resgistro = () => {
   };
 
   const cadastrar = async () => {
-    
-    
-
     try {
       const response = await api.post('users', {
         nome,
