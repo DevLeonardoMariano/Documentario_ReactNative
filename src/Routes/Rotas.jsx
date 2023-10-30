@@ -1,8 +1,7 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from "@expo/vector-icons";
-import { TouchableOpacity, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Login from "../Screens/Login";
@@ -13,13 +12,46 @@ import Favorito from "../Screens/Favorito";
 import CadastrarDocumentario from "../Screens/CadastrarDocumentario";
 import DetalheDocumentario from "../Screens/DetalheDocumentario";
 import GerenciamentoDocumentario from "../Screens/GerenciamentoDocumentario";
+import Logout from "../Screens/Logout";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import api from "../Service/api";
 
 const Tab = createBottomTabNavigator();
 
-const isAdmin = true;
-
 function TabNavigator() {
+  const [isAdmin, setIsAdmin] = useState(false);
+
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      try {
+        const usuarioData = await AsyncStorage.getItem('usuario');
+        const usuario = JSON.parse(usuarioData);
+        console.log('Dados do usuário:', usuario);
+
+        if (usuario && usuario.users_tipos.papel) {
+          const papel = usuario.users_tipos.papel;
+          console.log('Papel do usuário:', papel);
+
+          // Verifique se o usuário é um administrador
+          setIsAdmin(papel === "admin");
+        }
+      } catch (error) {
+        console.error("Erro ao buscar informações do usuário:", error);
+      }
+    };
+
+    fetchUserRole();
+  }, []);
+
+
+
   
+
+
 
   return (
     <Tab.Navigator
@@ -85,8 +117,10 @@ function TabNavigator() {
             ),
         }}
       />
-      {/* <Tab.Screen
+     
+     <Tab.Screen
         name="Logout"
+        component={Logout}
         options={{
           tabBarIcon: ({ color, size, focused }) =>
             focused ? (
@@ -95,7 +129,11 @@ function TabNavigator() {
               <Ionicons name="exit-outline" size={size} color={color} />
             ),
         }}
-      /> */}
+      />
+     
+
+
+
     </Tab.Navigator>
   );
 }
@@ -115,6 +153,10 @@ export default function Rotas() {
       <Stack.Screen
         name="DetalheDocumentario"
         component={DetalheDocumentario}
+      />
+      <Stack.Screen
+        name="CadastrarDocumentario"
+        component={CadastrarDocumentario}
       />
     </Stack.Navigator>
   );

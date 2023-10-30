@@ -3,11 +3,46 @@ import { Avatar, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { React, useState, useEffect } from "react";
 import { LinearGradient } from 'expo-linear-gradient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from "../Service/api";
 
 const Perfil = () => {
 
+  const [user, setUser] = useState({
+    nome: "",
+    email: "",
+    telefone: "",
+  });
+  
 
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token'); // Use a mesma chave 'token' aqui
+        console.log('Token:', token);
+  
+        const usuarioData = await AsyncStorage.getItem('usuario');
+        const usuario = JSON.parse(usuarioData);
+        console.log('Dados do usuário:', usuario);
+  
+        if (token && usuario) {
+          setUser({
+            nome: usuario.nome,
+            email: usuario.email,
+            telefone: usuario.telefone,
+          });
+        }
+      } catch (error) {
+        console.error("Erro ao buscar informações do usuário:", error);
+      }
+    };
+  
+    fetchUserData();
+  }, []);
+
+
+  
   return (
     <LinearGradient colors={['rgba(50, 0, 64, 1)',
       'rgba(97, 9, 121, 1)',
@@ -21,19 +56,19 @@ const Perfil = () => {
           <Icon name="user" size={24} style={styles.icon} />
           <Text style={styles.titulo}>Nome</Text>
         </View>
-        <Text style={styles.valor}>Nome retornado da API</Text>
+        <Text style={styles.valor}>{user.nome || "Carregando..."}</Text>
 
         <View style={styles.textoRow}>
           <Icon name="envelope" size={24} style={styles.icon} />
           <Text style={styles.titulo}>E-mail</Text>
         </View>
-        <Text style={styles.valor}>Email retornado da API</Text>
+        <Text style={styles.valor}>{user.email || "Carregando..."}</Text>
 
         <View style={styles.textoRow}>
           <Icon name="phone" size={24} style={styles.icon} />
           <Text style={styles.titulo}>Contato</Text>
         </View>
-        <Text style={styles.valor}>Email retornado da API</Text>
+        <Text style={styles.valor}>{user.telefone || "Carregando..."}</Text>
       </View>
 
     </LinearGradient>

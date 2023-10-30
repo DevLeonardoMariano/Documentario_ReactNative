@@ -36,7 +36,6 @@ const Resgistro = () => {
       console.log("Resposta da solicitação:", response.data);
   
       if (response.data.status === 1) {
-        // Registro bem-sucedido
         Alert.alert("Cadastro realizado com sucesso")
         navigation.navigate("Login");
       } else {
@@ -51,7 +50,7 @@ const Resgistro = () => {
       }
     } catch (error) {
       console.error('Erro na solicitação:', error);
-      Alert.alert('Erro', 'Ocorreu um erro durante a solicitação. Verifique sua conexão com a internet.');
+      Alert.alert('Erro', 'Ocorreu um erro durante a solicitação.');
     }
   };
 
@@ -98,6 +97,8 @@ const Resgistro = () => {
     </>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   container: {

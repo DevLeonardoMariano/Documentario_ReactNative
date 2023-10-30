@@ -27,28 +27,21 @@ const Login = () => {
         password,
       });
   
-      console.log("Resposta da solicitação:", response.data);
-  
       if (response.data.status === true && response.data.token) {
-
         // Login bem-sucedido
-        Alert.alert("Sucesso","Bem vindo ao mundo DOCUMENTARIO")
+        Alert.alert("Sucesso", "Bem-vindo ao mundo DOCUMENTARIO");
         const token = response.data.token;
-        // const usuario = response.data.usuario;
-
-        await AsyncStorage.setItem('TOKEN', token);
-        // await AsyncStorage.setItem('USUARIO', usuario);
+        const usuario = response.data.usuario ? response.data.usuario : {};
+  
+        await AsyncStorage.setItem('usuario', JSON.stringify(usuario));
+        await AsyncStorage.setItem('token', token); // Use 'token' como chave
         navigation.navigate("TabNavigator", { screen: "Principal" });
-
-
       } else {
-        
+        // Trate o caso de login mal-sucedido, se necessário
       }
     } catch (error) {
-
       console.error('Erro na solicitação:', error);
       Alert.alert('Erro', 'Ocorreu um erro durante a solicitação.');
-
     }
   };
 

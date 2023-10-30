@@ -1,5 +1,5 @@
-import { React, useState, useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { React, useState, useEffect, useCallback } from "react";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import {
   View,
   Image,
@@ -11,7 +11,6 @@ import { Input, Text } from "@rneui/themed";
 import { Searchbar } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import api from "../Service/api";
-import { Animated } from "react-native";
 
 
 const Documentario = ({ item, onPress }) => (
@@ -27,24 +26,37 @@ const Documentario = ({ item, onPress }) => (
 );
 
 const Principal = () => {
+
   const [documentario, setDocumentario] = useState([]);
+  const [refresh, setRefresh] = useState(false)
   const navigation = useNavigation();
 
+  useFocusEffect(
+    useCallback(() => {
+      // Lógica de busca e atualização de documentos
+      const fetchData = async () => {
+        try {
+          const response = await api.get('documentarios');
+          const updatedDocumentario = response.data.data;
+          setDocumentario(updatedDocumentario);
+        } catch (error) {
+          console.error('Erro ao buscar documentos:', error);
+        }
   
-
-
-  useEffect(() => {
-    console.log("Iniciando a busca de documentários...");
-    api.get(`documentarios`).then((res) => {
-      console.log("Resposta API:", res.data.data);
-      setDocumentario(res.data.data);
-    });
-  }, []);
+        setRefresh(false);
+      };
+  
+      fetchData();
+    }, [setDocumentario, setRefresh]) 
+  );
 
   const navigateToDetalhes = (documentarioId) => {
-    console.log("Navegando para detalhes do Documentário ID:", documentarioId);
+    console.log("ID:", documentarioId);
     navigation.navigate("DetalheDocumentario", { id: documentarioId });
   };
+
+
+
 
   return (
     <LinearGradient
@@ -76,6 +88,9 @@ const Principal = () => {
     </LinearGradient>
   );
 };
+
+
+
 
 const styles = StyleSheet.create({
   container: {

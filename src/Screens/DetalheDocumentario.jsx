@@ -10,11 +10,13 @@ import { useRoute } from "@react-navigation/native";
 
 
 
+
 const DetalheDocumentario = () => {
 
   const route = useRoute();
   const { id } = route.params;
   const [documentariosData, setDocumentariosData] = useState({}); 
+
 
   useEffect(() => {
     api.get(`documentarios/${id}`).then((res) => {
