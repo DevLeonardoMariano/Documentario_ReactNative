@@ -37,11 +37,19 @@ const Login = () => {
         await AsyncStorage.setItem('token', token); // Use 'token' como chave
         navigation.navigate("TabNavigator", { screen: "Principal" });
       } else {
-        // Trate o caso de login mal-sucedido, se necessário
+        Alert.alert("Erro", "Email ou senha incorreta");
       }
     } catch (error) {
-      console.error('Erro na solicitação:', error);
-      Alert.alert('Erro', 'Ocorreu um erro durante a solicitação.');
+      let resposta = error.response.data.errors;
+      var erro = "";
+
+      Object.keys(resposta).forEach(function(index){
+
+        erro += " " + `${resposta[index]} \n`;
+
+      });
+      
+      Alert.alert("Erro", erro);
     }
   };
 

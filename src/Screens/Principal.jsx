@@ -29,6 +29,8 @@ const Principal = () => {
 
   const [documentario, setDocumentario] = useState([]);
   const [refresh, setRefresh] = useState(false)
+  const [searchTerm, setSearchTerm] = useState(""); // Estado para o termo de busca
+  const [filteredDocumentario, setFilteredDocumentario] = useState([]); 
   const navigation = useNavigation();
 
   useFocusEffect(
@@ -56,6 +58,25 @@ const Principal = () => {
   };
 
 
+  const updateFilteredDocumentario = () => {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+
+    const filtered = documentario.filter((item) => {
+      return (
+        item.titulo.toLowerCase().includes(lowerCaseSearchTerm) ||
+        item.autor.toLowerCase().includes(lowerCaseSearchTerm)
+      );
+    });
+
+    setFilteredDocumentario(filtered);
+  };
+
+  // Use o useEffect para chamar a função de atualização quando o termo de busca for alterado
+  useEffect(() => {
+    updateFilteredDocumentario();
+  }, [searchTerm, documentario]);
+
+
 
 
   return (
@@ -67,14 +88,18 @@ const Principal = () => {
         colors={["rgba(50, 0, 64, 1)", "rgba(97, 9, 121, 1)"]}
         style={styles.Buscar}
       >
-        <Searchbar style={styles.InputBuscar} placeholder="Buscar" />
+        <Searchbar style={styles.InputBuscar} 
+        placeholder="Buscar"
+        value={searchTerm}
+        onChangeText={(text) => setSearchTerm(text)}
+         />
       </LinearGradient>
       <LinearGradient
         colors={["rgba(97, 9, 121, 1)", "rgba(143, 32, 173, 1)"]}
         style={styles.listarDocumentario}
       >
         <FlatList
-          data={documentario}
+          data={filteredDocumentario}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <Documentario

@@ -23,15 +23,20 @@ const CadastrarDocumentario = () => {
   const navigation = useNavigation();
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
+  
+    console.log('Result from ImagePicker:', result);
+  
     if (!result.canceled) {
+      console.log('Selected image URI:', result.assets[0].uri);
       setImage(result.assets[0].uri);
+    } else {
+      console.log('Image selection canceled.');
     }
   };
 
@@ -49,9 +54,8 @@ const CadastrarDocumentario = () => {
 
   const cadastrarDocumentario = async () => {
     try {
-
       const imageName = image ? image.split('/').pop() : null;
-
+  
       console.log('Caminho da imagem a ser enviado para a API:', imageName);
   
       const response = await api.post("documentarios", {
@@ -61,20 +65,32 @@ const CadastrarDocumentario = () => {
         image: imageName,
       });
   
-      console.log('Resposta da API (sucesso):', response.data);
-      
+      if (response && response.data) {
+        // A imagem foi enviada com sucesso, definimos a variável `image`.
+        setImage(result.assets[0].uri);
   
-      Alert.alert("Sucesso", "Documento cadastrado com sucesso");
-      setRefresh(true);
-      navigation.navigate("GerenciamentoDocumentario");
-    } catch (error) {
-      console.error('Erro ao cadastrar o documento:', error);
-  
-      if (error.response) {
-        console.error('Resposta da API (erro):', error.response.data);
+        console.log('Resposta da API (sucesso):', response.data);
+        Alert.alert("Sucesso", "Documento cadastrado com sucesso");
+        setRefresh(true);
+        navigation.navigate("GerenciamentoDocumentario");
+      } else {
+        // Lidar com o erro ou registrar uma mensagem de erro
+        Alert.alert("Erro", "Erro desconhecido ao cadastrar o documento.");
       }
+    } catch (error) {
+      console.error('Erro em cadastrarDocumentario:', error);
+      if (error.response) {
+        let resposta = error.response.data.errors;
+        var erro = "";
   
-      Alert.alert("Erro", "Não foi possível cadastrar o documento. Verifique sua conexão e tente novamente.");
+        Object.keys(resposta).forEach(function (index) {
+          erro += " " + `${resposta[index]} \n`;
+        });
+  
+        Alert.alert("Erro", erro);
+      } else {
+        console.error("Erro desconhecido:", error);
+      }
     }
   };
   
@@ -92,7 +108,16 @@ const CadastrarDocumentario = () => {
         navigation.navigate("GerenciamentoDocumentario");
       })
       .catch((error) => {
-        console.error("Erro ao atualizar o documento:", error);
+        let resposta = error.response.data.errors;
+      var erro = "";
+
+      Object.keys(resposta).forEach(function(index){
+
+        erro += " " + `${resposta[index]} \n`;
+
+      });
+      
+      Alert.alert("Erro", erro);
       });
   };
   

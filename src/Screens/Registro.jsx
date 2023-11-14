@@ -22,38 +22,75 @@ const Resgistro = () => {
     navigation.navigate("Login");
   };
 
-  const cadastrar = async () => {
-    try {
-      const response = await api.post('users', {
-        nome,
-        cpf,
-        email,
-        telefone,
-        password,
-        user_tipos_id: 1
-      });
+  // const cadastrar = async () => {
+  //   try {
+  //     const response = await api.post('users', {
+  //       nome,
+  //       cpf,
+  //       email,
+  //       telefone,
+  //       password,
+  //       user_tipos_id: 1
+  //     });
   
-      console.log("Resposta da solicitação:", response.data);
+  //     console.log("Resposta da solicitação:", response.data);
   
-      if (response.data.status === 1) {
-        Alert.alert("Cadastro realizado com sucesso")
-        navigation.navigate("Login");
-      } else {
-        // Verifique se há erros de validação
-        if (response.data.errors) {
-          setErrors(response.data.errors);
-        } else {
-          const erro = response.data.error || 'Erro desconhecido no servidor';
-          console.log('Erro do servidor:', erro);
-          Alert.alert('Erro', erro);
-        }
-      }
-    } catch (error) {
-      console.error('Erro na solicitação:', error);
-      Alert.alert('Erro', 'Ocorreu um erro durante a solicitação.');
-    }
-  };
+  //     if (response.data.status === 1) {
+  //       Alert.alert("Cadastro realizado com sucesso")
+  //       navigation.navigate("Login");
+  //     } else {
+  //       // Verifique se há erros de validação
+  //       if (response.data.errors) {
+  //         setErrors(response.data.errors);
+  //       } else {
+  //         const erro = response.data.error || 'Erro desconhecido no servidor';
+  //         console.log('Erro do servidor:', erro);
+  //         Alert.alert('Erro', erro);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error('Erro na solicitação:', error);
+  //     Alert.alert('Erro', 'Ocorreu um erro durante a solicitação.');
+  //   }
+  // };
 
+
+  const cadastrar = async () => {
+
+    api.post('users', {
+      nome,
+      cpf,
+      email,
+      telefone,
+      password,
+      user_tipos_id: 1
+    })
+      
+    .then(async (res) => {
+      if (res.status) {
+        Alert.alert("Cadastro realizado com sucesso")
+        navigation.navigate("Login"); 
+      }
+    })
+    
+    .catch (function (error) {
+  
+        let resposta = error.response.data.errors;
+        var erro = "";
+  
+        Object.keys(resposta).forEach(function(index){
+  
+          erro += " " + `${resposta[index]} \n`;
+  
+        });
+        
+        Alert.alert("Erro", erro);
+  
+    });
+}
+
+
+  
   return (
     <>
         <LinearGradient colors={['rgba(50, 0, 64, 1)',
