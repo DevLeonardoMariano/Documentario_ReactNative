@@ -19,7 +19,7 @@ const documentarios = [
 
 const Documentario = ({ item }) => (
   <View style={styles.itemDocumentario}>
-    <Image style={styles.image} source={item.imageUri} />
+    {/* <Image style={styles.image} source={item.imageUri} /> */}
     {/* <Image style={styles.image} source={{uri: "https://picsum.photos/700"}} /> */}
     <View style={styles.texto}>
       <Text style={styles.titulo}>{item.title}</Text>

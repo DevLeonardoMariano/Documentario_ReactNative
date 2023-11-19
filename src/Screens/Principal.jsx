@@ -16,7 +16,6 @@ import api from "../Service/api";
 const Documentario = ({ item, onPress }) => (
   <TouchableOpacity onPress={() => onPress(item.id)}>
     <View style={styles.itemDocumentario}>
-      <Image style={styles.image} source={{ uri: item.image_url }} />
       <View style={styles.texto}>
         <Text style={styles.titulo}>{item.titulo}</Text>
         <Text style={styles.autor}>{item.autor}</Text>
@@ -29,20 +28,20 @@ const Principal = () => {
 
   const [documentario, setDocumentario] = useState([]);
   const [refresh, setRefresh] = useState(false)
-  const [searchTerm, setSearchTerm] = useState(""); // Estado para o termo de busca
+  const [searchTerm, setSearchTerm] = useState(""); 
   const [filteredDocumentario, setFilteredDocumentario] = useState([]); 
   const navigation = useNavigation();
 
   useFocusEffect(
     useCallback(() => {
-      // Lógica de busca e atualização de documentos
+
       const fetchData = async () => {
         try {
           const response = await api.get('documentarios');
           const updatedDocumentario = response.data.data;
           setDocumentario(updatedDocumentario);
         } catch (error) {
-          console.error('Erro ao buscar documentos:', error);
+          
         }
   
         setRefresh(false);
@@ -53,7 +52,7 @@ const Principal = () => {
   );
 
   const navigateToDetalhes = (documentarioId) => {
-    console.log("ID:", documentarioId);
+    
     navigation.navigate("DetalheDocumentario", { id: documentarioId });
   };
 
@@ -71,7 +70,6 @@ const Principal = () => {
     setFilteredDocumentario(filtered);
   };
 
-  // Use o useEffect para chamar a função de atualização quando o termo de busca for alterado
   useEffect(() => {
     updateFilteredDocumentario();
   }, [searchTerm, documentario]);

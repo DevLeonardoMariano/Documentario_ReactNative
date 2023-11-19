@@ -19,7 +19,6 @@ const Documentario = ({ item, onEdit, onDelete, onPress }) => (
   
   <TouchableOpacity onPress={() => onPress(item.id)}>
   <View style={styles.itemDocumentario}>
-    <Image style={styles.image} source={{ uri: item.image_url }} />
     <View style={styles.texto}>
       <Text style={styles.titulo}>{item.titulo}</Text>
       <Text style={styles.autor}>{item.autor}</Text>
@@ -41,7 +40,7 @@ const GerenciamentoDocumentario = () => {
 
   const [documentario, setDocumentario] = useState([]);
   const [refresh, setRefresh] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(""); // Estado para o termo de busca
+  const [searchTerm, setSearchTerm] = useState(""); 
   const [filteredDocumentario, setFilteredDocumentario] = useState([]); 
   const navigation = useNavigation();
 
@@ -50,7 +49,7 @@ const GerenciamentoDocumentario = () => {
 
   useFocusEffect(
     useCallback(() => {
-      // Sua lógica de busca e atualização de documentos
+
       const fetchData = async () => {
         try {
           const response = await api.get('documentarios');
@@ -59,8 +58,7 @@ const GerenciamentoDocumentario = () => {
         } catch (error) {
           console.error('Erro ao buscar documentos:', error);
         }
-  
-        // Certifique-se de limpar o estado de "refresh" para evitar recarregamento contínuo
+
         setRefresh(false);
       };
   
@@ -85,10 +83,10 @@ const GerenciamentoDocumentario = () => {
 
   const handleDelete = async (documentarioId) => {
     try {
-      // Faça a solicitação DELETE para o servidor usando o ID do documento
+
       await api.delete(`documentarios/${documentarioId}`);
   
-      // Atualize a lista de documentos localmente após a exclusão bem-sucedida
+
       const updatedDocumentario = documentario.filter((item) => item.id !== documentarioId);
       setDocumentario(updatedDocumentario);
     } catch (error) {
@@ -110,7 +108,7 @@ const GerenciamentoDocumentario = () => {
     setFilteredDocumentario(filtered);
   };
 
-  // Use o useEffect para chamar a função de atualização quando o termo de busca for alterado
+
   useEffect(() => {
     updateFilteredDocumentario();
   }, [searchTerm, documentario]);
@@ -122,7 +120,6 @@ const GerenciamentoDocumentario = () => {
       colors={["rgba(50, 0, 64, 1)", "rgba(97, 9, 121, 1)"]}
       style={styles.container}
     >
-      {/* <View style={styles.container}> */}
       <Button
         style={styles.button}
         buttonStyle={{
@@ -194,7 +191,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     marginRight: 16,
-    borderRadius: 15, // Para uma imagem circular
+    borderRadius: 15, 
   },
   texto: {
     flex: 1,
@@ -220,11 +217,11 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     flexDirection: "row",
-    alignItems: "center", // Alinha os ícones verticalmente
-    marginLeft: 7, // Adicione a margem desejada entre os ícones
+    alignItems: "center",
+    marginLeft: 7, 
   },
   icon: {
-    marginHorizontal: 9, // Espaçamento horizontal entre os ícones
+    marginHorizontal: 9, 
   },
   button: {
     paddingHorizontal: 120,

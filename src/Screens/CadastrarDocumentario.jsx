@@ -13,7 +13,7 @@ const CadastrarDocumentario = () => {
   const [titulo, setTitulo] = useState("");
   const [autor, setAutor] = useState("");
   const [resumo, setResumo] = useState("");
-  const [image, setImage] = useState(null);
+
   const [refresh, setRefresh] = useState(false);
 
   const route = useRoute();
@@ -22,23 +22,6 @@ const CadastrarDocumentario = () => {
   
   const navigation = useNavigation();
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-  
-    console.log('Result from ImagePicker:', result);
-  
-    if (!result.canceled) {
-      console.log('Selected image URI:', result.assets[0].uri);
-      setImage(result.assets[0].uri);
-    } else {
-      console.log('Image selection canceled.');
-    }
-  };
 
   useEffect(() => {
     if (isEdit) {
@@ -47,38 +30,35 @@ const CadastrarDocumentario = () => {
         setTitulo(documentario.titulo);
         setAutor(documentario.autor);
         setResumo(documentario.resumo);
-        setImage(documentario.image_url);
+
       }
     }
   }, [route.params]);
 
   const cadastrarDocumentario = async () => {
     try {
-      const imageName = image ? image.split('/').pop() : null;
   
-      console.log('Caminho da imagem a ser enviado para a API:', imageName);
   
       const response = await api.post("documentarios", {
         titulo,
         autor,
         resumo,
-        image: imageName,
+
       });
   
       if (response && response.data) {
-        // A imagem foi enviada com sucesso, definimos a variável `image`.
-        setImage(result.assets[0].uri);
+
   
         console.log('Resposta da API (sucesso):', response.data);
         Alert.alert("Sucesso", "Documento cadastrado com sucesso");
         setRefresh(true);
         navigation.navigate("GerenciamentoDocumentario");
       } else {
-        // Lidar com o erro ou registrar uma mensagem de erro
+   
         Alert.alert("Erro", "Erro desconhecido ao cadastrar o documento.");
       }
     } catch (error) {
-      console.error('Erro em cadastrarDocumentario:', error);
+
       if (error.response) {
         let resposta = error.response.data.errors;
         var erro = "";
@@ -89,7 +69,7 @@ const CadastrarDocumentario = () => {
   
         Alert.alert("Erro", erro);
       } else {
-        console.error("Erro desconhecido:", error);
+  
       }
     }
   };
@@ -99,7 +79,7 @@ const CadastrarDocumentario = () => {
       titulo,
       autor,
       resumo,
-      image: image
+ 
     })
       .then((response) => {
         console.log("Documento atualizado com sucesso:", response.data);
@@ -165,25 +145,7 @@ const CadastrarDocumentario = () => {
               value={resumo}
               onChangeText={(text) => setResumo(text)}
             />
-            <Button
-              style={styles.buttonIMG}
-              buttonStyle={{
-                borderColor: "rgba(179, 113, 240, 1)",
-                backgroundColor: "rgba(179, 113, 240, 1)",
-                borderRadius: 4,
-              }}
-              titleStyle={{ color: "white" }}
-              title="IMAGEM"
-              type="outline"
-              onPress={pickImage}
-            />
-            {image && (
-              <Image
-                source={{ uri: image }}
-                style={{ width: 200, height: 200, borderRadius: 5 }}
-              />
-            )}
-
+  
             <Button
               style={styles.button}
               buttonStyle={{
@@ -229,11 +191,6 @@ const styles = StyleSheet.create({
   button: {
     paddingTop: 80,
     paddingBottom: 40,
-    width: 180,
-  },
-  buttonIMG: {
-    paddingTop: 20,
-    paddingBottom: 20,
     width: 180,
   },
   texto: {
