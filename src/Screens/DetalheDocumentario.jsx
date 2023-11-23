@@ -5,6 +5,9 @@ import { React, useState, useEffect } from "react";
 import { LinearGradient } from 'expo-linear-gradient';
 import api from "../Service/api";
 import { useRoute } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 
 
 
@@ -14,26 +17,33 @@ const DetalheDocumentario = () => {
   const route = useRoute();
   const { id } = route.params;
   const [documentariosData, setDocumentariosData] = useState({}); 
+  const [favoritos, setFavoritos] = useState([]);
 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await api.get(`documentarios/${id}`);
-        console.log('Resposta da API:', response);
-  
+        
         if (response.data && response.data.status === 1 && response.data.data) {
-          setDocumentariosData(response.data.data);
+          const documentario = response.data.data;
+          const favoritosData = await AsyncStorage.getItem("favoritos");
+          const favoritosArray = favoritosData ? JSON.parse(favoritosData) : [];
+          const isFavorito = favoritosArray.some((doc) => doc.id === documentario.id);
+          documentario.favorito = isFavorito;
+          setDocumentariosData(documentario);
         } else {
-
+          // Tratar caso o documentário não seja encontrado
+          console.error('Documentário não encontrado:', response.data.message);
+          // Pode remover da lista de favoritos ou mostrar uma mensagem adequada
         }
       } catch (error) {
         console.error('Erro ao obter dados do documentário:', error);
       }
     };
-  
+
     fetchData();
-  }, [id]);
+  }, [id]); 
 
   const enviarAvaliacao = async () => {
     try {
@@ -65,13 +75,43 @@ const DetalheDocumentario = () => {
     }
   };
 
+// Favoritar -------------------------------------------------------------------------------------------------------------
+  const recarregarFavoritos = async () => {
+    try {
+      const favoritosData = await AsyncStorage.getItem("favoritos");
+      if (favoritosData) {
+        setFavoritos(JSON.parse(favoritosData));
+      }
+    } catch (error) {
+      console.error("Erro ao recarregar favoritos:", error);
+    }
+  };
 
-  // Favoritar -------------------------------------------------------------------------------------------------------------
+  
   const toggleFavorito = () => {
     const newDocumentario = { ...documentariosData };
     newDocumentario.favorito = !newDocumentario.favorito;
     setDocumentariosData(newDocumentario);
+  
+    // Adicionar ou remover da lista de favoritos (usando AsyncStorage neste exemplo)
+    AsyncStorage.getItem('favoritos')
+      .then((favoritos) => {
+        const favoritosArray = favoritos ? JSON.parse(favoritos) : [];
+        const index = favoritosArray.findIndex((doc) => doc.id === newDocumentario.id);
+  
+        if (index !== -1) {
+          // Remover da lista
+          favoritosArray.splice(index, 1);
+        } else {
+          // Adicionar à lista
+          favoritosArray.push(newDocumentario);
+        }
+  
+        AsyncStorage.setItem('favoritos', JSON.stringify(favoritosArray));
+      })
+      .catch((error) => console.error('Erro ao manipular favoritos:', error));
   };
+  
 
   // Avalição Final -------------------------------------------------------------------------------------------------------------
 

@@ -63,18 +63,16 @@ const GerenciamentoDocumentario = () => {
       };
   
       fetchData();
-    }, [setDocumentario, setRefresh]) // Atualize a tela quando "refresh" mudar
+    }, [setDocumentario, setRefresh]) 
   );
 
 
   const navigateToDetalhes = (documentarioId) => {
-    console.log("Navegando para detalhes do Documentário ID:", documentarioId);
     navigation.navigate("DetalheDocumentario", { id: documentarioId });
   };
 
   const handleEdit = (documentario) => {
     if (documentario) {
-      console.log("Dados do Documentario para Edição:", documentario);
       navigation.navigate("CadastrarDocumentario", { documentarioParaEdicao: documentario, isEdit: true, shouldRefresh: true});
     } else {
       navigation.navigate("CadastrarDocumentario", { isEdit: false });

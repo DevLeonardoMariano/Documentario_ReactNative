@@ -49,7 +49,7 @@ const CadastrarDocumentario = () => {
       if (response && response.data) {
 
   
-        console.log('Resposta da API (sucesso):', response.data);
+   
         Alert.alert("Sucesso", "Documento cadastrado com sucesso");
         setRefresh(true);
         navigation.navigate("GerenciamentoDocumentario");
@@ -82,7 +82,7 @@ const CadastrarDocumentario = () => {
  
     })
       .then((response) => {
-        console.log("Documento atualizado com sucesso:", response.data);
+      
         Alert.alert("Sucesso", "Documento atualizado com sucesso");
         setRefresh(true);
         navigation.navigate("GerenciamentoDocumentario");
